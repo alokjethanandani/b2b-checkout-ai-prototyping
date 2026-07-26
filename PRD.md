@@ -29,7 +29,7 @@ No production backend, no real payment processing, no proprietary/employer IP �
 
 **In scope (v1):**
 
-- Fictional supplier — SF food distributor; restaurant-customer persona, **pre-authenticated** (skip login/signup — start "signed in as [Restaurant Name]").
+- Fictional supplier — **Fog City Food Distributor** (SF food distributor); restaurant-customer persona **Jaffa Hummus**, **pre-authenticated** (skip login/signup — start "signed in as Jaffa Hummus").
 - Product catalog: food items with realistic B2B units (case / lb / each), category browse.
 - Add to cart; cart review page with quantity edit, remove line item, subtotal.
 - Checkout:
@@ -73,7 +73,7 @@ No production backend, no real payment processing, no proprietary/employer IP �
 
 ## 7. Phased build plan
 
-- **Phase 0 — Setup (½ day): ✅ Done Jul 26.** Figma file created — [Fog City Provisions — B2B Checkout POC](https://www.figma.com/design/b5nyoACZ9hClgt96XWeKov) (fileKey `b5nyoACZ9hClgt96XWeKov`). Dev Mode MCP confirmed live via the remote connector (no desktop toggle needed — auth was already in place). Verified end-to-end: created a test frame, read it back via `get_metadata` (structured XML) and `get_design_context` (React+Tailwind + node IDs + screenshot) — confirms Claude reads structured layout/tokens, not a screenshot guess. Test frame node `1:2`, ready to delete before Phase 1 design work starts.
+- **Phase 0 — Setup (½ day): ✅ Done Jul 26.** Figma file created — [Fog City Provisions — B2B Checkout POC](https://www.figma.com/design/b5nyoACZ9hClgt96XWeKov) (fileKey `b5nyoACZ9hClgt96XWeKov`). ⚠️ **Rename pending:** supplier brand was renamed to **Fog City Food Distributor** (§9) after this file was created — the Figma file title still reads "Fog City Provisions." Rename the file in Figma before/during Phase 1 so doc and artifact stay in sync (Figma MCP tools weren't authenticated in this session to do it here). Dev Mode MCP confirmed live via the remote connector (no desktop toggle needed — auth was already in place). Verified end-to-end: created a test frame, read it back via `get_metadata` (structured XML) and `get_design_context` (React+Tailwind + node IDs + screenshot) — confirms Claude reads structured layout/tokens, not a screenshot guess. Test frame node `1:2`, ready to delete before Phase 1 design work starts.
 - **Phase 1 — Design-system foundation (1–2 sessions):** tokens + core components, sourced/adapted from the two Community kits.
 - **Phase 2 — Screen design (2 sessions):** catalog, cart review, checkout, confirmation frames built from the component set.
 - **Phase 3 — MCP → code (2–3 sessions):** generate the frontend from Figma via Claude Code; wire cart state + mock checkout logic + delivery-cutoff rule.
@@ -89,11 +89,13 @@ No production backend, no real payment processing, no proprietary/employer IP �
 
 ## 9. Open questions
 
-1. Fictional supplier name/brand — proposing **"Fog City Provisions"** (SF food distributor) unless you want something else or to pick it during design.
+_None outstanding — both resolved 2026-07-26, see §10._
 
 ## 10. Decisions (locked)
 
 - Vertical: SF food distributor → SF restaurants, B2B online ordering. CC/ACH only — no invoicing, no net terms.
+- Supplier brand: **Fog City Food Distributor** (supersedes earlier "Fog City Provisions" proposal — Figma file from Phase 0 still needs renaming to match, see §7).
+- Restaurant-buyer persona: **Jaffa Hummus** — the pre-authenticated "signed in as" identity throughout the flow.
 - No proprietary/employer IP; fictional brand + mock data only.
 - Non-agentic — a designed, rules-based prototype (by design, distinct from agent-building work elsewhere in this portfolio).
 - Target ship: **Aug 10**.
