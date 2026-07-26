@@ -1,20 +1,22 @@
-# B2B Checkout POC — Fog City Provisions
+# B2B Checkout POC — Fog City Food Distributor
 
 ## About the author
 
 **Alok** — Lead Product Designer, 15+ years in B2B FinTech, currently focused on agentic AI workflows, AP/AR automation, and product design for complex financial workflows (exception handling, trust calibration, back-office automation).
 
-This project is a public "learn in public" piece, built to demonstrate an AI-assisted, design-to-code workflow (Figma Dev Mode MCP → Claude Code) end-to-end, paired with a B2B checkout flow that surfaces a real product decision — credit card vs. ACH at the point of payment. It's part of an active portfolio push for B2B FinTech / design-engineering roles.
-
 [LinkedIn](https://linkedin.com/in/alokjethanandani) · [Portfolio](https://madebyalok.com)
-
-A portfolio prototype demonstrating **AI-assisted, design-to-code prototyping**: a Figma design system handed to Claude Code via Figma's Dev Mode MCP server, generating a working B2B ordering + checkout flow directly from structured design context (tokens, layout, components) rather than a screenshot.
-
-> Fictional brand, mock data, no real payments or backend — this is a public learning artifact, not production software. See [`PRD.md`](PRD.md) for full scope, decisions, and the user-story backlog.
 
 ## What it is
 
-An interactive click-through prototype for a fictional SF food distributor (**Fog City Provisions**) selling to SF restaurants:
+A public "learn in public" portfolio prototype demonstrating **AI-assisted, design-to-code prototyping**: a Figma design system handed to Claude Code via Figma's Dev Mode MCP server, generating a working B2B ordering + checkout flow directly from structured design context (tokens, layout, components) rather than a screenshot.
+
+> Fictional brand, mock data, no real payments or backend — this is a public learning artifact, not production software. See [`PRD.md`](PRD.md) for full scope, decisions, and the user-story backlog.
+
+## Scope
+
+An interactive click-through prototype for a fictional SF food distributor (**Fog City Food Distributor**) selling to **Jaffa Hummus**, a restaurant pre-authenticated as the buyer persona. 
+
+In scope:
 
 - **Product catalog** — browse by category, with B2B unit types (case / lb / each)
 - **Cart** — add, edit quantity, remove line items, running subtotal
