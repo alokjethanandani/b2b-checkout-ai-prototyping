@@ -33,8 +33,8 @@ No production backend, no real payment processing, no proprietary/employer IP �
 - Product catalog: food items with realistic B2B units (case / lb / each), category browse.
 - Add to cart; cart review page with quantity edit, remove line item, subtotal.
 - Checkout:
-  - Payment method choice — **credit card** (mock card form + processing-fee disclosure) or **ACH** (mock "connect bank" instant-verification flow, no fee, settlement-time disclosure).
-  - Delivery scheduling: date picker constrained by a mocked cutoff rule (e.g., orders after 2pm push to next available date) + a case-minimum or order-minimum rule.
+  - Payment method choice — **credit card** (mock card form + processing-fee disclosure) or **ACH** (mock "connect bank" instant-verification flow, no fee, settlement-time disclosure). **ACH selection pushes the earliest available delivery date out by a mocked clearing-time rule** (default: 3 business days, reflecting real-world standard ACH settlement of 1–3 business days) — food doesn't ship before payment clears. Checkout and confirmation copy discloses that delivery is contingent on the ACH payment settling and **subject to cancellation** if it fails to clear.
+  - Delivery scheduling: date picker constrained by a mocked cutoff rule (e.g., orders after 2pm push to next available date) + a case-minimum or order-minimum rule + the ACH clearing-time push-out above (CC checkout is unaffected — its earliest date reflects only the cutoff/minimum rules).
   - Order confirmation screen.
 - Figma design system: tokens (color, type, spacing) + core components (product card, cart line item, payment-method selector, date picker, buttons/forms) — adapted from a fintech kit + an ecommerce/checkout kit, then handed to Claude Code via Dev Mode MCP. Token structure built theming-ready (so a second supplier's palette could drop in later), but only one brand designed in v1.
 
@@ -76,14 +76,14 @@ No production backend, no real payment processing, no proprietary/employer IP �
 - **Phase 0 — Setup (½ day): ✅ Done Jul 26.** Figma file created — [Fog City Provisions — B2B Checkout POC](https://www.figma.com/design/b5nyoACZ9hClgt96XWeKov) (fileKey `b5nyoACZ9hClgt96XWeKov`). ⚠️ **Rename pending:** supplier brand was renamed to **Fog City Food Distributor** (§9) after this file was created — the Figma file title still reads "Fog City Provisions." Rename the file in Figma before/during Phase 1 so doc and artifact stay in sync (Figma MCP tools weren't authenticated in this session to do it here). Dev Mode MCP confirmed live via the remote connector (no desktop toggle needed — auth was already in place). Verified end-to-end: created a test frame, read it back via `get_metadata` (structured XML) and `get_design_context` (React+Tailwind + node IDs + screenshot) — confirms Claude reads structured layout/tokens, not a screenshot guess. Test frame node `1:2`, ready to delete before Phase 1 design work starts.
 - **Phase 1 — Design-system foundation (1–2 sessions):** tokens + core components, sourced/adapted from the two Community kits.
 - **Phase 2 — Screen design (2 sessions):** catalog, cart review, checkout, confirmation frames built from the component set.
-- **Phase 3 — MCP → code (2–3 sessions):** generate the frontend from Figma via Claude Code; wire cart state + mock checkout logic + delivery-cutoff rule.
+- **Phase 3 — MCP → code (2–3 sessions):** generate the frontend from Figma via Claude Code; wire cart state + mock checkout logic + delivery-cutoff rule + ACH clearing-time push-out rule.
 - **Phase 4 — Polish + mock data (1 session):** realistic product catalog, case-pack units, fee/settlement disclosures.
 - **Phase 5 — Demo + content (1–2 sessions):** screen-record the click-through, write the MCP-workflow article, cut LinkedIn posts.
 
 ## 8. The design story to capture (interview gold)
 
-- **CC vs. ACH:** the fee-vs-speed tradeoff surfaced to the customer at the moment of choice — business-model fluency made visible.
-- **Delivery-constraint UX:** how a cutoff rule / order minimum shows up without feeling like a wall — trust calibration in a non-agentic UI.
+- **CC vs. ACH:** the fee-vs-speed tradeoff surfaced to the customer at the moment of choice — business-model fluency made visible. Sharpened by the clearing-time rule: ACH isn't just "no fee, slower disclosure copy" — it visibly pushes the delivery date out and carries a cancellation-if-payment-fails condition, so the tradeoff has real stakes attached, not just a line of fine print.
+- **Delivery-constraint UX:** how a cutoff rule / order minimum shows up without feeling like a wall — trust calibration in a non-agentic UI. The ACH clearing-time push-out is the same problem in a second guise: communicating a payment-driven schedule constraint (and its cancellation risk) without making the customer feel penalized for choosing the no-fee option.
 - **Editable cart before commit:** the "confirm, don't just submit" pattern — the same trust-calibration muscle as your agentic work, applied to a plain rules-based flow.
 - **The MCP workflow itself:** tokens-in-Figma → structured context → generated code, and where it actually saved (or cost) time vs. hand-coding from a screenshot.
 
@@ -134,15 +134,17 @@ Meta-instruction for Claude Code on this repo: **for each story below, implement
   *AC:* date picker disables/greys out invalid dates based on current mock time; rule is configurable, not hardcoded per-date. *Test:* mock "order placed at 2:01pm" scenario disables same-day delivery.
 - **US-9:** As a restaurant buyer, I'm blocked from checking out below the order/case minimum, so I understand the supplier's ordering constraints.
   *AC:* checkout CTA is disabled with an explanatory message below minimum; enables once met. *Test:* cart below minimum cannot reach confirmation.
+- **US-10:** As a restaurant buyer paying by ACH, my delivery date reflects ACH clearing time, so the supplier isn't shipping food before payment clears.
+  *AC:* selecting ACH pushes the earliest available delivery date out by a configurable clearing-time rule (default: 3 business days), layered on top of the existing cutoff/minimum rules; selecting CC leaves the earliest date unaffected by this rule. Checkout and confirmation screens both disclose that delivery is contingent on the ACH payment settling and subject to cancellation if it fails to clear. *Test:* an otherwise-identical order shows a later earliest-delivery date under ACH than under CC; the cancellation-risk disclosure text is present on both the checkout and confirmation screens when ACH is selected, absent when CC is selected.
 
 **Epic E — Confirmation**
-- **US-10:** As a restaurant buyer, I see an order confirmation summarizing items, payment method, and delivery date, so I have a record of what I submitted.
+- **US-11:** As a restaurant buyer, I see an order confirmation summarizing items, payment method, and delivery date, so I have a record of what I submitted.
   *AC:* confirmation reflects the exact cart/payment/delivery state at submit time, not live state. *Test:* placing an order and then editing "cart" (if reachable) doesn't retroactively change a past confirmation.
 
 **Epic F — Demo & Test Infrastructure**
-- **US-11:** As Alok running a usability study or leadership demo, I can reset mock data to its seed state with one action, so every session starts from a known baseline.
+- **US-12:** As Alok running a usability study or leadership demo, I can reset mock data to its seed state with one action, so every session starts from a known baseline.
   *AC:* a dev-only "reset data" control clears IndexedDB and reseeds the catalog/cart/orders. *Test:* reset after a modified state returns storage to the exact seed snapshot.
-- **US-12:** As Alok, every CRUD flow above has an automated test I can point to, so the prototype is demonstrably AI-built and tested, not just AI-styled.
-  *AC:* test suite covers US-1 through US-11; `npm test` runs clean. *Test:* this is the meta-check — CI/local test run passes before a story is marked done.
+- **US-13:** As Alok, every CRUD flow above has an automated test I can point to, so the prototype is demonstrably AI-built and tested, not just AI-styled.
+  *AC:* test suite covers US-1 through US-12; `npm test` runs clean. *Test:* this is the meta-check — CI/local test run passes before a story is marked done.
 
 ---
