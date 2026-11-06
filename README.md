@@ -2,7 +2,7 @@
 
 ## About the author
 
-**Alok** — Lead Product Designer, 15+ years in B2B FinTech, currently focused on agentic AI workflows, AP/AR automation, and product design for complex financial workflows (exception handling, trust calibration, back-office automation).
+**Alok** — Lead Product Designer, 10 years in B2B FinTech, currently focused on agentic AI workflows, AP/AR automation, and product design for complex financial workflows.
 
 [LinkedIn](https://linkedin.com/in/alokjethanandani) · [Portfolio](https://madebyalok.com)
 
