@@ -5,7 +5,7 @@
 ## 1. About Me
 
 - **Name:** Alok
-- **Role:** Lead Product Designer, 15+ years in B2B FinTech.
+- **Role:** Lead Product Designer in B2B FinTech.
 - **This project:** a public portfolio piece — a fictional SF food distributor B2B ordering/checkout prototype, built via a Figma design-system → Dev Mode MCP → Claude Code pipeline, to demonstrate AI-assisted prototyping and Figma MCP fluency. Target ship Aug 10, 2026. See `PRD.md` for full scope.
 - **Pain points this project exists to close:**
   1. **Prototyping speed:** limited hands-on experience with Figma MCP + Claude Code makes high-fidelity prototyping slow. Expect me to need more explanation/checkpoints early on than a fluent user would.
